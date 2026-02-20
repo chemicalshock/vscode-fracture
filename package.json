@@ -1,0 +1,52 @@
+{
+  "name": "fracture-language-support",
+  "displayName": "Fracture Language Support",
+  "description": "Syntax highlighting and editor support for the Fracture programming language.",
+  "version": "0.0.1",
+  "publisher": "atlas",
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "fracture",
+    "language",
+    "syntax",
+    "highlighting"
+  ],
+  "repository": {
+    "type": "git"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "fracture",
+        "aliases": [
+          "Fracture",
+          "fracture"
+        ],
+        "extensions": [
+          ".f",
+          ".frac"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "fracture",
+        "scopeName": "source.fracture",
+        "path": "./syntaxes/fracture.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "fracture",
+        "path": "./snippets/fracture.code-snippets"
+      }
+    ]
+  }
+}
