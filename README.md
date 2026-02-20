@@ -21,7 +21,13 @@ The grammar is based on current Fracture tokenizer/parser behavior from `../frac
 
 1. Open this folder in VS Code.
 2. Press `F5` to launch an Extension Development Host.
-3. Open a `.f` or `.frac` file and verify highlighting/snippets.
+3. Open `examples/smoke.f` (or any `.f`/`.frac`) and verify highlighting/snippets.
+
+## QA
+
+- Manual smoke file: `examples/smoke.f`
+- Manual checklist: `docs/QA_CHECKLIST.md`
+- Regression tests: `npm test` (see `tests/README.md`)
 
 ## Notes
 

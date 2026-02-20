@@ -20,6 +20,9 @@
   "repository": {
     "type": "git"
   },
+  "scripts": {
+    "test": "node --test tests/grammar-regression.test.mjs"
+  },
   "contributes": {
     "languages": [
       {
