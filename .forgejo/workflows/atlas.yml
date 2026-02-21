@@ -37,15 +37,16 @@ jobs:
           TARGET_REPO_ROOT="$WORKSPACE_ROOT/$TARGET_REPO_NAME"
           ATLAS_REPO_ROOT="$WORKSPACE_ROOT/atlas-pipeline"
           ATLAS_LIB="$ATLAS_REPO_ROOT/src/lib"
+          ATLAS_INC="$ATLAS_REPO_ROOT/src/inc"
 
           if [ -n "${PYTHONPATH:-}" ]; then
-            export PYTHONPATH="$ATLAS_LIB:$PYTHONPATH"
+            export PYTHONPATH="$ATLAS_LIB:$ATLAS_INC:$PYTHONPATH"
           else
-            export PYTHONPATH="$ATLAS_LIB"
+            export PYTHONPATH="$ATLAS_LIB:$ATLAS_INC"
           fi
 
           REQUIRED_REPOS_FILE="$WORKSPACE_ROOT/.atlas-required-repos.tsv"
-          python3 -c 'import sys; from pathlib import Path; from atlas.config import load_config; config = load_config(Path(sys.argv[1])); [print("{}\t{}".format(required_repo.repository, required_repo.ref or "")) for required_repo in config.meta.required_repos]' "$TARGET_REPO_ROOT/.atlas/pipeline.xml" > "$REQUIRED_REPOS_FILE"
+          python3 -c 'import sys; from pathlib import Path; from config import load_config; config = load_config(Path(sys.argv[1])); [print("{}\t{}".format(required_repo.repository, required_repo.ref or "")) for required_repo in config.meta.required_repos]' "$TARGET_REPO_ROOT/.atlas/pipeline.xml" > "$REQUIRED_REPOS_FILE"
 
           ORIGIN_URL="$(git -C "$TARGET_REPO_ROOT" remote get-url origin)"
           ORIGIN_AUTH_HEADER="$(git -C "$TARGET_REPO_ROOT" config --get-all "http.$ORIGIN_URL.extraheader" | head -n 1 || true)"
@@ -93,8 +94,8 @@ jobs:
 
           cd "$TARGET_REPO_ROOT"
 
-          python3 -m atlas.main --repo-root "$ATLAS_REPO_ROOT" validate
-          python3 -m atlas.main --repo-root "$ATLAS_REPO_ROOT" run --trigger "$ATLAS_TRIGGER"
+          python3 -m main --repo-root "$ATLAS_REPO_ROOT" validate
+          python3 -m main --repo-root "$ATLAS_REPO_ROOT" run --trigger "$ATLAS_TRIGGER"
 
       - name: Upload ATLAS output
         if: always()
