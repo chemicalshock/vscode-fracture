@@ -10,7 +10,7 @@ VS Code language extension for the Fracture programming language.
 - Bracket/quote auto-closing and basic indentation rules
 - Starter snippets for control-flow and common Fracture syntax
 
-The grammar is based on current Fracture tokenizer/parser behavior from `../fracture`, including:
+The grammar is based on current Fracture tokenizer/parser behavior
 - keywords like `if`, `for`, `foreach`, `do`, `ret`, `import`, `let`
 - literals `true`, `false`, `yes`, `no`, `null`
 - operators including `>>`, `..`, `==`, `!=`, `<=`, `>=`, `&&`, `||`
@@ -31,4 +31,4 @@ The grammar is based on current Fracture tokenizer/parser behavior from `../frac
 
 ## Notes
 
-This is a language-support baseline (no LSP yet). If you want semantic checks, diagnostics, formatting, or go-to-definition, add a language server in a follow-up.
+This is a language-support baseline (no LSP yet). Possible semantic checks, diagnostics, formatting, and go-to-definition in a follow-up via language-server.
