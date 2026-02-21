@@ -50,7 +50,7 @@
 
     <task id="codequality">
       <step id="komply" timeout="5m" cwd=".">
-        <cmd>komply</cmd>
+        <exec>komply</exec>
       </step>
     </task>
   </tasks>
