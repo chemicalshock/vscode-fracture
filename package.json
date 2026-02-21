@@ -4,7 +4,7 @@
   "description": "Syntax highlighting and editor support for the Fracture programming language.",
   "version": "0.0.1",
   "publisher": "atlas",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
   },

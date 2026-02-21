@@ -1,0 +1,52 @@
+<atlas version="1">
+
+  <meta>
+    <name>atlas-pipeline</name>
+    <default trigger="push"/>
+    <requires>
+      <!--<repo name="reponame" ref="master"/>-->
+    </requires>
+  </meta>
+
+  <triggers>
+    <trigger name="push">
+      <run task="deps"/>
+      <run task="validate"/>
+      <run task="regression"/>
+      <run task="codequality"/>
+    </trigger>
+
+    <trigger name="pr">
+      <run task="deps"/>
+      <run task="validate"/>
+      <run task="regression"/>
+      <run task="codequality"/>
+    </trigger>
+  </triggers>
+
+  <tasks>
+    <task id="deps">
+      <step id="deps" timeout="5m" cwd=".">
+        <cmd>${ATLAS_DEPS_CMD:-sh -lc 'set -eu; if ! command -v node >/dev/null || ! command -v npm >/dev/null || ! command -v jq >/dev/null; then apt-get update; apt-get install -y nodejs npm jq; fi'}</cmd>
+      </step>
+    </task>
+
+    <task id="validate">
+      <step id="validate" timeout="2m" cwd=".">
+        <cmd>${ATLAS_VALIDATE_CMD:-sh -lc 'set -eu; for f in package.json language-configuration.json syntaxes/fracture.tmLanguage.json snippets/fracture.code-snippets .vscode/launch.json .vscode/extensions.json; do jq empty \"$f\"; done; test -f examples/smoke.f; test -f docs/QA_CHECKLIST.md; test -f tests/grammar-regression.test.mjs;'}</cmd>
+      </step>
+    </task>
+
+    <task id="regression">
+      <step id="regression" timeout="2m" cwd=".">
+        <cmd>${ATLAS_TEST_CMD:-npm test}</cmd>
+      </step>
+    </task>
+
+    <task id="codequality">
+      <step id="komply" timeout="5m" cwd=".">
+        <exec>komply</exec>
+      </step>
+    </task>
+  </tasks>
+</atlas>
