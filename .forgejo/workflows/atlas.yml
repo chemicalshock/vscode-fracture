@@ -108,7 +108,16 @@ jobs:
           fi
 
           if [ -s "$REQUIRED_SYSTEM_APT_FILE" ]; then
-            sudo apt-get update
+            if command -v sudo >/dev/null 2>&1; then
+              APT_PREFIX=(sudo)
+            elif [ "$(id -u)" -eq 0 ]; then
+              APT_PREFIX=()
+            else
+              echo "atlas: error: required apt packages need elevated privileges (sudo not found and not running as root)" >&2
+              exit 4
+            fi
+
+            "${APT_PREFIX[@]}" apt-get update
             while IFS="$(printf '\t')" read -r REQUIRED_APT_PACKAGE REQUIRED_APT_VERSION REQUIRED_APT_OPTIONS; do
               if [ -n "$REQUIRED_APT_VERSION" ]; then
                 REQUIRED_APT_SPEC="${REQUIRED_APT_PACKAGE}=${REQUIRED_APT_VERSION}"
@@ -116,7 +125,7 @@ jobs:
                 REQUIRED_APT_SPEC="$REQUIRED_APT_PACKAGE"
               fi
 
-              APT_INSTALL_CMD=(sudo apt-get install -y)
+              APT_INSTALL_CMD=("${APT_PREFIX[@]}" apt-get install -y)
               if [ -n "$REQUIRED_APT_OPTIONS" ]; then
                 read -r -a REQUIRED_APT_OPTIONS_ARRAY <<< "$REQUIRED_APT_OPTIONS"
                 APT_INSTALL_CMD+=("${REQUIRED_APT_OPTIONS_ARRAY[@]}")
