@@ -5,19 +5,22 @@
     <default trigger="push"/>
     <requires>
       <!--<repo name="reponame" ref="master"/>-->
+      <system>
+        <apt name="nodejs"/>
+        <apt name="npm"/>
+        <apt name="jq"/>
+      </system>      
     </requires>
   </meta>
 
   <triggers>
     <trigger name="push">
-      <run task="deps"/>
       <run task="validate"/>
       <run task="regression"/>
       <run task="codequality"/>
     </trigger>
 
     <trigger name="pr">
-      <run task="deps"/>
       <run task="validate"/>
       <run task="regression"/>
       <run task="codequality"/>
@@ -25,27 +28,29 @@
   </triggers>
 
   <tasks>
-    <task id="deps">
-      <step id="deps" timeout="5m" cwd=".">
-        <cmd>${ATLAS_DEPS_CMD:-sh -lc 'set -eu; if ! command -v node >/dev/null || ! command -v npm >/dev/null || ! command -v jq >/dev/null; then apt-get update; apt-get install -y nodejs npm jq; fi'}</cmd>
-      </step>
-    </task>
-
     <task id="validate">
       <step id="validate" timeout="2m" cwd=".">
-        <cmd>${ATLAS_VALIDATE_CMD:-sh -lc 'set -eu; for f in package.json language-configuration.json syntaxes/fracture.tmLanguage.json snippets/fracture.code-snippets .vscode/launch.json .vscode/extensions.json; do jq empty \"$f\"; done; test -f examples/smoke.f; test -f docs/QA_CHECKLIST.md; test -f tests/grammar-regression.test.mjs;'}</cmd>
+        <cmd>jq empty package.json</cmd>
+        <cmd>jq empty language-configuration.json</cmd>
+        <cmd>jq empty syntaxes/fracture.tmLanguage.json</cmd>
+        <cmd>jq empty snippets/fracture.code-snippets</cmd>
+        <cmd>jq empty .vscode/launch.json</cmd>
+        <cmd>jq empty .vscode/extensions.json</cmd>
+        <cmd>test -f examples/smoke.f</cmd>
+        <cmd>test -f docs/QA_CHECKLIST.md</cmd>
+        <cmd>test -f tests/grammar-regression.test.mjs</cmd>
       </step>
     </task>
 
     <task id="regression">
       <step id="regression" timeout="2m" cwd=".">
-        <cmd>${ATLAS_TEST_CMD:-npm test}</cmd>
+        <cmd>npm test</cmd>
       </step>
     </task>
 
     <task id="codequality">
       <step id="komply" timeout="5m" cwd=".">
-        <exec>komply</exec>
+        <cmd>komply</cmd>
       </step>
     </task>
   </tasks>
