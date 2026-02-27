@@ -75,3 +75,15 @@ test('core operators are covered', () => {
   assert.match('&&', operators);
   assert.match('||', operators);
 });
+
+test('numeric literals cover decimal, exponent, and radix forms', () => {
+  const numbers = re(repo.numbers.match);
+
+  assert.match('42', numbers);
+  assert.match('-3.14', numbers);
+  assert.match('6.02e23', numbers);
+  assert.match('0xff', numbers);
+  assert.match('0b1010', numbers);
+  assert.match('0o755', numbers);
+  assert.match('1_000_000', numbers);
+});

@@ -16,6 +16,7 @@ The grammar is based on current Fracture tokenizer/parser behavior
 - operators including `>>`, `..`, `==`, `!=`, `<=`, `>=`, `&&`, `||`
 - Fracture call forms like `f::name`, `f::name [args]`, `f::name [] -> type`, `module::fn`, and `target:method`
 - call-site highlighting for array-first calls (`[args] fn;`) and pipeline chains (`... >> fn;`)
+- numeric literals including decimal, scientific notation, and radix forms (`0xff`, `0b1010`, `0o755`, `1_000_000`)
 
 ## Development
 
