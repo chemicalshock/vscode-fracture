@@ -212,7 +212,7 @@
     },
     "keywords": {
       "name": "keyword.control.fracture",
-      "match": "\\b(?:if|else|while|for|foreach|forever|do|ret|import|let|in|const)\\b"
+      "match": "\\b(?:if|else|while|for|foreach|forever|do|ret|import|let|in|const|break|continue)\\b"
     },
     "types": {
       "name": "storage.type.fracture",

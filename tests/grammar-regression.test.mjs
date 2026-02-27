@@ -41,6 +41,8 @@ test('keywords, constants, and types include agreed tokens', () => {
   assert.match('const', keywords);
   assert.match('import', keywords);
   assert.match('let', keywords);
+  assert.match('break', keywords);
+  assert.match('continue', keywords);
 
   assert.match('yes', constants);
   assert.match('no', constants);
